@@ -41,7 +41,7 @@ entryProject_Name = StringVar()
 total_hrs_spent = StringVar()
 
 
-# functions
+# functions to  clear entries
 def button_clear():
     entryProject_Name.delete(0, END)
     start_date.setvar("")
@@ -57,14 +57,10 @@ def calc_wage():
     s_date = start_date.get_date()
     user_start_time = str(str(start_date.get_date()) + " " + start_hr.get() + start_min.get())
     start_date_time = datetime.datetime.strptime(user_start_time, '%Y-%m-%d %H%M')
-    print(start_date_time)
-    # start_date_time = datetime.datetime.combine(s_date, s_time)
     e_date = end_date.get_date()
     user_end_time = str(str(end_date.get_date()) + " " + end_hr.get() + end_min.get())
     end_date_time = datetime.datetime.strptime(user_end_time, '%Y-%m-%d %H%M')
-    # end_date_time = datetime.datetime.combine(e_date, e_time)
-    #    days_spent = (end_date_time - start_date_time).days
-    # print(s_time)
+    
     print(end_date_time)
     if start_date_time > end_date_time:
         messagebox.showerror('Date Error', 'Start Date Cannot Be Later Than End Date')
@@ -72,7 +68,6 @@ def calc_wage():
     else:
         seconds_spent = (end_date_time - start_date_time).total_seconds()
         hours_spent = round(abs(seconds_spent) / 3600, 2)
-        print(hours_spent)
         my_earnings = round(abs(hours_spent * 5), 2)
         wage.set(str("{:.2f}".format(my_earnings)))
         total_hrs_spent.set(str("{:.2f}".format(hours_spent)))
@@ -122,19 +117,21 @@ start_date = DateEntry(frame2, font=('arial', 16, 'bold'), bd=5, width=44, justi
 start_date.grid(row=0, column=1, sticky='w', padx=5)
 
 # Drop Down Options For Start Time
-start_options_hours = ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12",
-                       "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"]
-
-start_drop_hr = OptionMenu(frame2, start_hr, *start_options_hours)
+#create a list from 0 to 23 for hours
+options_hours = []
+for i in range (24):
+    options_hours.append(str(i).zfill(2))
+    
+#create a list from 0 to 59 for minutes
+options_mins =[]
+for j in range (60):
+    options_mins.append(str(j).zfill(2)) 
+    
+start_drop_hr = OptionMenu(frame2, start_hr, *options_hours)
 start_drop_hr.grid(row=1, column=1)
 
-start_options_min = ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12",
-                     "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25",
-                     "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38",
-                     "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51",
-                     "52", "53", "54", "55", "56", "57", "58", "59"]
 
-start_drop_min = OptionMenu(frame2, start_min, *start_options_min)
+start_drop_min = OptionMenu(frame2, start_min, *options_mins)
 start_drop_min.grid(row=1, column=2)
 
 
@@ -142,19 +139,11 @@ end_date = DateEntry(frame3, font=('arial', 16, 'bold'), bd=5, width=44, justify
 end_date.grid(row=0, column=1, sticky='w', padx=5)
 
 # Drop Down Options For  End Time
-end_options_hours = ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12",
-                     "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"]
 
-end_drop_hr = OptionMenu(frame3, end_hr, *end_options_hours)
+end_drop_hr = OptionMenu(frame3, end_hr, *options_hours)
 end_drop_hr.grid(row=1, column=1)
 
-end_options_min = ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12",
-                   "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25",
-                   "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38",
-                   "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51",
-                   "52", "53", "54", "55", "56", "57", "58", "59"]
-
-end_drop_min = OptionMenu(frame3, end_min, *end_options_min)
+end_drop_min = OptionMenu(frame3, end_min, *options_mins)
 end_drop_min.grid(row=1, column=2)
 
 # Controls to display calculated values
@@ -174,16 +163,22 @@ my_wage = Label(frame5, font=('arial', 16, 'bold'), bg='green', bd=5, width=44, 
 my_wage.grid(row=1, column=0, padx=1, pady=4)
 
 # Buttons Used
+#Button to clear feilds
 btn_clear = Button(frame6, font=('arial', 16, 'bold'), text="Clear", justify=LEFT, command=button_clear)
 btn_clear.grid(row=0, column=1)
+
+#button to calulate earnings
 cal = Button(frame6, font=('arial', 16, 'bold'), text="Calculate", justify=LEFT, command=calc_wage)
 cal.grid(row=0, column=2)
 
+#Button to save data into a csv file
 save_to_excel = Button(frame6, font=('arial', 16, 'bold'), text="Save To Excel", justify=LEFT, command=save_to_excel)
 save_to_excel.grid(row=0, column=3)
 
+#Exit button to quit windows
 exit_button = Button(frame6, font=('arial', 16, 'bold'), text="Exit", justify=LEFT, command=root.destroy)
 exit_button.grid(row=0, column=4)
 
 root.mainloop()
+
 

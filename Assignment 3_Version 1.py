@@ -1,3 +1,9 @@
+#!/usr/bin/env python
+__author__ = "Alexander Kissiedu, Isaac Armah-Mensah & Elliot Attipoe"
+__copyright__ = "Copyright 2021, The DigiCap Project"
+__license__ = "GPL"
+__version__ = "1.0.1"
+
 from tkinter import *
 # from tkinter.ttk import *
 from tkcalendar import *

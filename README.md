@@ -1,7 +1,8 @@
-# DigiCap_Group2
+# DigiCap_Group2 Assignment
 
-Group 2 Assignment
+
 #Project Members: 
-Alexander Kissiedu, 
-Isaac Armah-Mensah & 
-Elliot Attipoe
+
+1. Alexander Kissiedu, 
+2. Isaac Armah-Mensah & 
+3. Elliot Attipoe

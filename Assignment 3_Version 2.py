@@ -138,7 +138,7 @@ class Window(Frame):
         self.clear()
 
      # Function menu for calculating earnings
-     def clickcalculateButton(self):
+    def clickcalculateButton(self):
         self.clear()
         self.pearningCombo = Combobox(self.calculateProject, width=12, textvariable=projectearning, state='readonly')
 
